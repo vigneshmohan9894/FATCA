@@ -1,4 +1,5 @@
-
+//new changes done on 23-11-2020
+//vignesh M //Kapilan
 var ActivityName=window.parent.stractivityName;
 
 
