@@ -16,7 +16,7 @@ var userName = getWorkItemData("userName");
 
 	if(ActivityName=='Draft')
         { 
-	setValues({"Deal_Team_Leader": "Vamsi" }, true);
+	setValues({"Deal_Team_Leader": "Vamshidhar" }, true);
 	//setValues({"Expected_ActualDate": "11-10-2020" }, true);
 	setValues({"Client_name": "SCB FATCA" }, true);
 	setValues({"Deal_id": "CF012345" }, true);
@@ -26,6 +26,8 @@ var userName = getWorkItemData("userName");
 	
 	setStyle("Submit","visible","true");
 	setStyle("Save_draft","visible","true");
+	setStyle("Legal_action","visible","false");
+	setStyle("Recall","visible","false");
 	
 	setStyle("label162","visible","false");
 	setStyle("label277","visible","false");
@@ -58,16 +60,10 @@ setStyle("label326","visible","false");
 	setStyle("label330","visible","false");
 	setStyle("label313","visible","false");
 	
-	//below four lines by k
-
+	
 	setTabStyle("tab4", 2, "visible", "false");
 	setTabStyle("tab4", 3, "visible", "false");
-	setTabStyle("tab4", 4, "visible", "false");
-	
-	//document.getElementById('sheet18_link').style.pointerEvents = 'none';
-	//document.getElementById('sheet61_link').style.pointerEvents = 'none';
-	//document.getElementById('sheet62_link').style.pointerEvents = 'none';
-	//document.getElementById('sheet65_link').style.pointerEvents = 'none';
+	setTabStyle("tab4", 4, "visible", "true");
 	
 	setTabStyle("tab11", 0, "visible", "false");
 	setTabStyle("tab11", 1, "visible", "false");
@@ -140,7 +136,7 @@ if(ActivityName=='UnderReview-DTL'){
 		
 		setStyle("Submit","visible","true");
 		setStyle("Recall","visible","true");
-		setTabStyle("tab4", 3, "visible", "false");//here by k
+		
 		setValues({"Activity_status": "UnderReview-Deal Team Leader"}, true);
 		
 		option1();
@@ -237,10 +233,9 @@ if(ActivityName=='UnderReview-DTL'){
 
 if(ActivityName=='UnderReview-Legal'){
 	
-	setValues({"Activity_status": "Under Review"}, true);
+	setValues({"Activity_status": "Under Review-Legal"}, true);
 	
 	if (getValue("Usergroup") == 'DTE') {
-		
 		
 		option1();
 		option2();
@@ -287,8 +282,8 @@ if(ActivityName=='UnderReview-Legal'){
 		
 		setStyle("Submit","visible","true");
 		setStyle("Recall","visible","true");
-		setTabStyle("tab4", 3, "disable", "false");
-		setValues({"Activity_status": "UnderReview-Deal Team Leader"}, true);
+		
+		// setValues({"Activity_status": "UnderReview-Deal Team Leader"}, true);
 		
 		option1();
 		option2();
@@ -519,8 +514,6 @@ if(ActivityName =='Referback'){
 
 }
 
-
-
 function Recall(){
 	setValues({"Activity_status": "Recalled"}, true);
 	var ActivityName=window.parent.stractivityName;
@@ -546,47 +539,8 @@ function Recall(){
 }
 	 }
 }
-
-function validateDocumentType(sInputDocName)
-{
-    try
-    {
-        var xmlOut = window.parent.getInterfaceData("DLIST");
-        var sDocName = "";
-        while (xmlOut.indexOf("<DocumentName>") > 0)
-        {
-            //for multiple Documents
-            sDocName = sDocName + xmlOut.substring(xmlOut.indexOf('<DocumentName>') + 14, xmlOut.indexOf('</DocumentName>')) + "||";
-            xmlOut = xmlOut.substring(xmlOut.indexOf('</Document>') + 11, xmlOut.length);
-        }
-        if (sDocName.indexOf(sInputDocName) == -1)
-        {
-            showMessage("", "Please upload Required documents", "error");
-			return false;
-        }
-    }
-    catch (ex) {
-    }
-    return true;
-}
-
 function Legal_action(){
-	/*var x = document.getElementById("pets").options[2].visible = true;
-	function showonlyone(thechosenone) {
-      var newboxes = document.getElementsByTagName("div");
-            for(var x=0; x<newboxes.length; x++) {
-                  name = newboxes[x].getAttribute("name");
-                  if (name == 'newboxes') {
-                        if (newboxes[x].id == thechosenone) {
-                        newboxes[x].style.display = 'block';
-                  }
-                  else {
-                        newboxes[x].style.display = 'none';
-                  }
-            }
-      }
-}
-*/
+
 	if ((getValue("Legal_action") == 'Reject')){
 		setStyle("Comments", "mandatory", "true");
 		
@@ -756,8 +710,6 @@ function Questionarie(){
 	}
 }
 
-
-
 		function option1(){
 			if (getValue('Option1_checkbox') == true)
 			{
@@ -859,7 +811,7 @@ function Questionarie(){
 				setTabStyle("tab11", 5, "visible", "false");
 				 setStyle("label333","visible","false");
                 setStyle("label334",'visible','false'); 
-                setTabStyle("tab4", 2, "disable", "true")
+				
 				}
 		}
 		
@@ -869,14 +821,9 @@ function Questionarie(){
 			var dealussource= getValue('Option1_dealussource');
 			if(dealussource == "Yes, my deal is US source"){
 				
-				setTabStyle("tab4", 2, "visible", "true");	//for enabling profile report and approvals section
-				setTabStyle("tab4", 3, "visible", "true");
-				setTabStyle("tab4", 4, "visible", "true");// these three lines by k
-				
-				    //document.getElementById('sheet61_link').style.pointerEvents = 'auto';
-					//document.getElementById('sheet62_link').style.pointerEvents = 'auto';
-					//document.getElementById('sheet63_link').style.pointerEvents = 'auto';
-					
+				if (getValue("Usergroup") == 'Legal') {
+				setTabStyle("tab4", 2, "visible", "true");	//Approvals section
+				}
 				
 					setStyle("label281","visible","true");
 					setStyle("Option1_liveagency","visible","true");
@@ -898,8 +845,6 @@ function Questionarie(){
 					setStyle("label329","visible","true");
 					setStyle("label330","visible","false");
 					setStyle("label335","visible","false");
-					
-					
 			}
 		}
 		
@@ -942,8 +887,6 @@ function Questionarie(){
 				setStyle("label323","visible","false");
 				setStyle("Option1_transactionussource","visible","false");
 				setStyle("Option1_liveagency","visible","false");
-				
-				
 			}
 			
 			if(aviationshipleasing == "My deal does not involve Aviation or Ship Leasing."){
@@ -968,12 +911,12 @@ function Questionarie(){
 			var dealussource= getValue('Option2_existingdealussource');
 			if(dealussource == "Yes, my deal is US source"){
 				
-				setTabStyle("tab4", 2, "visible", "true");	//for enabling profile report and approvals section
-				setTabStyle("tab4", 3, "visible", "true");//here 2 lines by k
 				
-				document.getElementById('sheet61_link').style.pointerEvents = 'auto';
-					document.getElementById('sheet62_link').style.pointerEvents = 'auto';
-
+				if (getValue("Usergroup") == 'Legal') {
+				setTabStyle("tab4", 2, "visible", "true");	//for enabling profile report 
+				}
+				
+			
 				setStyle("label314","visible","false");
 				setStyle("label315","visible","false");
 				setStyle("label316","visible","false");
@@ -995,8 +938,6 @@ function Questionarie(){
 					setStyle("Option2_dealsatisfy","visible","true");
 			}
 		}
-		
-	
 		
 		function option5_dealussource()
 		{
@@ -1024,20 +965,18 @@ function Questionarie(){
 			}
 			if(transactionaviation == "Yes, my deal is US source"){
 			
-				//	document.getElementById('sheet61_link').style.pointerEvents = 'auto';
-					//document.getElementById('sheet62_link').style.pointerEvents = 'auto';
-					
-					setTabStyle("tab4", 2, "visible", "true");
-					setTabStyle("tab4", 3, "visible", "true");
-					
+				if (getValue("Usergroup") == 'DTL') {
+				setTabStyle("tab4", 2, "visible", "true");	//Approvals section
+				}
+				
+				if ((getValue("Usergroup") == 'DTE') || (getValue("Usergroup") == 'Legal') ) {
+				setTabStyle("tab4", 3, "visible", "true"); // Profile Report
+				}
+				
 				setStyle("label282","visible","false");
 				setStyle("Option1_transaction","visible","false");
 				
 			}
-			
-			
-			
-			
 		}
 		function option1_jurisdiction(){
 			var jurisdiction = getValue('Option1_transaction');
@@ -1081,9 +1020,11 @@ function option1_liveagency(){
 					
 				alert("1.Complete the approvers Section and click the 'Notify legal' to send an early notification of this deal to Legal, and where applicable,Corporate agency and trust 2.Ensure the appropriate FATCA procedures are followed by visiting CIB Fatca page and complete the profile report. Once completed,Submit to the Deal team leader for confirmation"); }
 					document.getElementById('sheet18_link').style.pointerEvents = 'auto';
-					setTabStyle("tab4", 2, "visible", "true");
-					setTabStyle("tab4", 3, "visible", "true");// here 2 lines by k
-					setStyle("label329","visible","true");  //for displaying the message label
+					if (getValue("Usergroup") == 'Legal') {
+				setTabStyle("tab4", 2, "visible", "true");	//Approvals section
+				}
+				
+				setStyle("label329","visible","true");  //for displaying the message label
 					setValues({"outcome": "FATCA REQUIRED" }, true);
 	}
 	else 
@@ -1119,28 +1060,25 @@ function option1_liveagency(){
                     setStyle("label325","visible","true");//setting msg to be displayed
 					setStyle("label326",'visible','false');
 					  setStyle("label32","visible","false");
-					  setTabStyle("tab4", 1, "visible", "true");// the below 4 lines bt k
-					setTabStyle("tab4", 2, "visible", "true");
-					setTabStyle("tab4", 3, "visible", "true");
-					setTabStyle("tab4", 4, "visible", "true");
-					document.getElementById('sheet18_link').style.pointerEvents = 'auto';
-					document.getElementById('sheet61_link').style.pointerEvents = 'auto';
-					document.getElementById('sheet62_link').style.pointerEvents = 'auto';
-					document.getElementById('sheet65_link').style.pointerEvents = 'auto';
-			
+					  
+					  
+					  if (getValue("Usergroup") == 'DTL') {
+					setTabStyle("tab4", 1, "visible", "true");  }
+					
+					  if (getValue("Usergroup") == 'Legal') {
+						  setTabStyle("tab4", 1, "visible", "true"); //Comments
+					setTabStyle("tab4", 2, "visible", "true");	//Profile section
+				}
+					
                     setValues({"outcome": "FATCA REQUIRED" }, true);
             }
            if(credUs == "No, my deal is not US source")
             {
-                
 					setStyle("label325",'visible','false');
                     setStyle("label326",'visible','true');  //setting msg to be displayed
 					
-					setTabStyle("tab4", 2, "visible", "false");// here 1 line by k
                      setValues({"outcome": "FATCA Not REQUIRED" }, true);
                     showMessage("Option4_Fatcacompliant","No further action is required. You may proceed to click on the “Complete” button to complete this FATCA activity","Confirm");
-					
-					
 					
             }
            
@@ -1152,22 +1090,23 @@ function option1_liveagency(){
 				setStyle("label328",'visible','false');
 					setStyle("label327","visible","true");//setting msg to be displayed
 					
-					setTabStyle("tab4", 2, "visible", "true");// here 3 lines
-					setTabStyle("tab4", 3, "visible", "true");
-					setTabStyle("tab4", 4, "visible", "true");
-					document.getElementById('sheet18_link').style.pointerEvents = 'auto';
-					document.getElementById('sheet61_link').style.pointerEvents = 'auto';
-					document.getElementById('sheet62_link').style.pointerEvents = 'auto';
-					document.getElementById('sheet65_link').style.pointerEvents = 'auto';
+				if ((getValue("Usergroup") == 'Legal') ) {
+				setTabStyle("tab4", 2, "visible", "false"); // Profile Report
+				}
+				
 					setValues({"outcome": "FATCA Not REQUIRED" }, true);
+					if ((getValue("Usergroup") == 'DTE') ) {
+				showMessage("Option4_Fatcacompliant","No further action is required. You may proceed to click on the “Complete” button to complete this FATCA activity","Confirm");
+				}
 					
-					setValues({"outcome": "FATCA Not REQUIRED" }, true);
-					showMessage("Option4_Fatcacompliant","No further action is required. You may proceed to click on the “Complete” button to complete this FATCA activity","Confirm");
 					
 			}
 		    if(tb =="No, the intended recipient is not FATCA compliant")
 			{
-					setTabStyle("tab4", 2, "visible", "true");// here by k
+					if ((getValue("Usergroup") == 'Legal') ) {
+				setTabStyle("tab4", 2, "visible", "true"); // Profile Report
+				}
+				
 					setStyle("label327","visible","false");
 					setStyle("label328",'visible','true');  //setting msg to be displayed
 			 	    setValues({"outcome": "FATCA REQUIRED" }, true);
@@ -1184,25 +1123,16 @@ function option1_liveagency(){
             if(tb == "Yes, ALL of the above conditions apply"){
 				setStyle("label334",'visible','false'); 
                     setStyle("label333","visible","true");     //setting message to be displayed
-					setTabStyle("tab4", 2, "visible", "false");// here by k
+					
                     setValues({"outcome": "FATCA Not REQUIRED" }, true);
-					
-					setTabStyle("tab4", 1, "visible", "true");//below 4 lines by k
-					setTabStyle("tab4", 2, "visible", "true");
-					setTabStyle("tab4", 3, "visible", "true");
-					setTabStyle("tab4", 4, "visible", "true");
-					document.getElementById('sheet18_link').style.pointerEvents = 'auto';
-					document.getElementById('sheet61_link').style.pointerEvents = 'auto';
-					document.getElementById('sheet62_link').style.pointerEvents = 'auto';
-					document.getElementById('sheet65_link').style.pointerEvents = 'auto';
-                    
-					
-                    showMessage("Option6_dealcondition","No further action is required. You may proceed to click on the “Complete” button to complete this FATCA activity","Confirm");
-                    
+					if ((getValue("Usergroup") == 'DTE') ) {
+                    showMessage("Option6_dealcondition","No further action is required. You may proceed to click on the “Complete” button to complete this FATCA activity","Confirm");}
+				   
             }
             if(tb == "No. One or more of the above conditions do not apply")
-            {
-                setTabStyle("tab4", 2, "visible", "true");//here 1 line by k
+            {	
+				if ((getValue("Usergroup") == 'DTL') ) {
+                setTabStyle("tab4", 1, "visible", "true");}
 				setStyle("label333","visible","false");
                     setStyle("label334",'visible','true');  //setting msg to be displayed
                      setValues({"outcome": "FATCA REQUIRED" }, true);
