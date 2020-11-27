@@ -61,9 +61,8 @@ setStyle("label326","visible","false");
 	setStyle("label313","visible","false");
 	
 	
+	setTabStyle("tab4", 1, "visible", "false");
 	setTabStyle("tab4", 2, "visible", "false");
-	setTabStyle("tab4", 3, "visible", "false");
-	setTabStyle("tab4", 4, "visible", "true");
 	
 	setTabStyle("tab11", 0, "visible", "false");
 	setTabStyle("tab11", 1, "visible", "false");
@@ -90,6 +89,8 @@ if(ActivityName=='UnderReview-DTL'){
 	
 	if (getValue("Usergroup") == 'DTE') {
 		
+		setTabStyle("tab4", 1, "visible", "false");
+		setTabStyle("tab4", 2, "visible", "false");
 		
 		option1();
 		option2();
@@ -112,7 +113,8 @@ if(ActivityName=='UnderReview-DTL'){
 		option4_recipientfatca();
 		option6_contract();
 		
-		setStyle("Legal_action","disable","false");
+		setStyle("questionnaire","disable","true");
+		setStyle("Legal_action","disable","true");
 		setStyle("Option1_dealinvolve","disable","true");
 		setStyle("Option1_dealussource","disable","true");
 		setStyle("Option1_liveagency","disable","true");
@@ -134,8 +136,13 @@ if(ActivityName=='UnderReview-DTL'){
 	}
 	if (getValue("Usergroup") == 'DTL') {
 		
+		setTabStyle("tab4", 1, "visible", "false");
+		setTabStyle("tab4", 2, "visible", "false");
+	
+		setStyle("Recall","visible","false");
 		setStyle("Submit","visible","true");
 		setStyle("Recall","visible","true");
+		setStyle("Legal_action","visible","false");
 		
 		setValues({"Activity_status": "UnderReview-Deal Team Leader"}, true);
 		
@@ -160,7 +167,7 @@ if(ActivityName=='UnderReview-DTL'){
 		option4_recipientfatca();
 		option6_contract();
 		
-		
+		setStyle("questionnaire","disable","true");
 		setStyle("Legal_action","disable","false");
 		setStyle("Option1_dealinvolve","disable","true");
 		setStyle("Option1_dealussource","disable","true");
@@ -208,7 +215,7 @@ if(ActivityName=='UnderReview-DTL'){
 		option4_recipientfatca();
 		option6_contract();
 		
-		setStyle("Legal_action","disable","false");
+		setStyle("questionnaire","disable","true");
 		setStyle("Option1_dealinvolve","disable","true");
 		setStyle("Option1_dealussource","disable","true");
 		setStyle("Option1_liveagency","disable","true");
@@ -258,6 +265,7 @@ if(ActivityName=='UnderReview-Legal'){
 		option4_recipientfatca();
 		option6_contract();
 		
+		setStyle("questionnaire","disable","true");
 		setStyle("Legal_action","disable","false");
 		setStyle("Option1_dealinvolve","disable","true");
 		setStyle("Option1_dealussource","disable","true");
@@ -281,7 +289,7 @@ if(ActivityName=='UnderReview-Legal'){
 	if (getValue("Usergroup") == 'DTL') {
 		
 		setStyle("Submit","visible","true");
-		setStyle("Recall","visible","true");
+		setStyle("Recall","visible","false");
 		
 		// setValues({"Activity_status": "UnderReview-Deal Team Leader"}, true);
 		
@@ -306,7 +314,7 @@ if(ActivityName=='UnderReview-Legal'){
 		option4_recipientfatca();
 		option6_contract();
 		
-		
+		setStyle("questionnaire","disable","true");
 		setStyle("Legal_action","disable","false");
 		setStyle("Option1_dealinvolve","disable","true");
 		setStyle("Option1_dealussource","disable","true");
@@ -332,6 +340,7 @@ if(ActivityName=='UnderReview-Legal'){
 		
 		setStyle("Recall","visible","true");
 		
+		setValues({"Activity_status": "UnderReview-Legal"}, true);
 		
 		option1();
 		option2();
@@ -354,6 +363,7 @@ if(ActivityName=='UnderReview-Legal'){
 		option4_recipientfatca();
 		option6_contract();
 		
+		setStyle("questionnaire","disable","true");
 		setStyle("Legal_action","disable","false");
 		setStyle("Option1_dealinvolve","disable","true");
 		setStyle("Option1_dealussource","disable","true");
@@ -381,6 +391,10 @@ if(ActivityName =='Referback'){
 	
 	setValues({"Activity_status": "Referback"}, true);
 	saveWorkItem();
+	if (getValue("Usergroup") == 'DTE') {
+		
+		setStyle("Submit","visible","true");
+	
 	var confirmDoneResponse = confirm("FATCA Questionarie to be Updated?");
 	if(confirmDoneResponse ==  true)
 		{
@@ -416,10 +430,6 @@ if(ActivityName =='Referback'){
 			return true;
 		}
 	
-	if (getValue("Usergroup") == 'DTE') {
-		
-		setStyle("Submit","visible","true");
-		
 	}
 	if (getValue("Usergroup") == 'DTL') {
 		
@@ -445,7 +455,7 @@ if(ActivityName =='Referback'){
 		option6_contract();
 		
 		
-		
+		setStyle("questionnaire","disable","true");
 		setStyle("Option1_dealinvolve","disable","true");
 		setStyle("option1_dealussource","disable","true");
 		setStyle("Option1_liveagency","disable","true");
@@ -518,7 +528,7 @@ function Recall(){
 	setValues({"Activity_status": "Recalled"}, true);
 	var ActivityName=window.parent.stractivityName;
 	saveWorkItem();
-	 if (ActivityName == 'UnderReview') 
+	 if (ActivityName == 'UnderReview-Legal') 
 	 {
               if (getValue("Usergroup") == 'DTE') {
 							if(getValue('Activity_status') == 'Recalled'){
@@ -657,8 +667,11 @@ function Questionarie(){
 	else if(Question == "Yes")
 	{
 		setValues({"outcome": "FATCA NOT REQUIRED" }, true);
+		setTabStyle("tab4", 3, "visible", "false");
 		
+		if (getValue("Usergroup") == 'DTE'){
 		showMessage("questionnaire","No further action is required. You may proceed to click on the 'Complete' button to complete this FATCA activity","Confirm");
+		}
 		
 		setStyle("label62","visible","false");
 		setStyle("label337","visible","true");
@@ -676,8 +689,6 @@ function Questionarie(){
 		document.getElementById("Option5_checkbox").checked = false;
 		document.getElementById("Option6_checkbox").checked = false;
 	
-		
-		
 	setTabStyle("tab11", 0, "visible", "false");
 	setTabStyle("tab11", 1, "visible", "false");
 	setTabStyle("tab11", 2, "visible", "false");
@@ -705,7 +716,6 @@ function Questionarie(){
 				for(var i=0;i<tri.length;i++)
 				{ tri[i].checked = false;
 				}
-		
 		
 	}
 }
@@ -911,6 +921,9 @@ function Questionarie(){
 			var dealussource= getValue('Option2_existingdealussource');
 			if(dealussource == "Yes, my deal is US source"){
 				
+				if (getValue("Usergroup") == 'DTE') {
+				setTabStyle("tab4", 3, "visible", "true");	//for enabling Approver tab
+				}
 				
 				if (getValue("Usergroup") == 'Legal') {
 				setTabStyle("tab4", 2, "visible", "true");	//for enabling profile report 
@@ -965,12 +978,20 @@ function Questionarie(){
 			}
 			if(transactionaviation == "Yes, my deal is US source"){
 			
-				if (getValue("Usergroup") == 'DTL') {
-				setTabStyle("tab4", 2, "visible", "true");	//Approvals section
+			
+			if (getValue("Usergroup") == 'DTE') {
+				setTabStyle("tab4", 3, "visible", "true"); // Approvers Report
 				}
 				
-				if ((getValue("Usergroup") == 'DTE') || (getValue("Usergroup") == 'Legal') ) {
-				setTabStyle("tab4", 3, "visible", "true"); // Profile Report
+				if (getValue("Usergroup") == 'DTL') {
+				setTabStyle("tab4", 2, "visible", "false");
+				setTabStyle("tab4", 3, "visible", "true");					//profile section
+				}
+				
+				if (getValue("Usergroup") == 'Legal') {
+					setTabStyle("tab4", 2, "visible", "true");
+				setTabStyle("tab4", 3, "visible", "true"); // Approvers Report
+				setStyle("Approver","visible","false");
 				}
 				
 				setStyle("label282","visible","false");
@@ -998,7 +1019,9 @@ function Questionarie(){
 				setStyle("label283","visible","true");
 				setStyle("Option1_payeejurisdiction","visible","true");
 				setValues({"outcome": "FATCA NOT REQUIRED" }, true);
+				if (getValue("Usergroup") == 'DTE'){
 				 showMessage("Option4_Fatcacompliant","No further action is required. You may proceed to click on the 'Complete' button to complete this FATCA activity","Confirm");
+				}
 				 setStyle("label335","visible","true");
 			}
 			else{
@@ -1078,7 +1101,9 @@ function option1_liveagency(){
                     setStyle("label326",'visible','true');  //setting msg to be displayed
 					
                      setValues({"outcome": "FATCA Not REQUIRED" }, true);
-                    showMessage("Option4_Fatcacompliant","No further action is required. You may proceed to click on the “Complete” button to complete this FATCA activity","Confirm");
+					 if ((getValue("Usergroup") == 'DTE') ) {
+					 showMessage("Option4_Fatcacompliant","No further action is required. You may proceed to click on the “Complete” button to complete this FATCA activity","Confirm");
+					 }
 					
             }
            
