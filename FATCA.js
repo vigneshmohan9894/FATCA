@@ -1,7 +1,6 @@
 
 var ActivityName=window.parent.stractivityName;
 
-
 function FATCA_formLoad(){
 var ActivityName=window.parent.stractivityName;
 var userName = getWorkItemData("userName");
@@ -13,16 +12,25 @@ var userName = getWorkItemData("userName");
     }if (userName == "dealuser") {
         setValues({"Usergroup": "DTL"}, true);
     }
-
+											 setCaption("Btn_Reject", "Save Draft");
+											 setCaption("Btn_Save", "Submit");
+											 setCaption("Btn_Submit", "Delete");
+											 setCaption("Btn_History", "Workflow history");
+											
+				iframeWindow.document.getElementById("StatusTag").innerHTML = "New";							 
 	if(ActivityName=='Draft')
         { 
+	
+iframeWindow.document.getElementById('IFrame_Submit').style.visibility = 'visible';
+iframeWindow.document.getElementById('IFrame_Save').style.visibility = 'visible';
+iframeWindow.document.getElementById('IFrame_History').style.visibility = 'visible';
+							
 	setValues({"Deal_Team_Leader": "Vamshidhar" }, true);
 	//setValues({"Expected_ActualDate": "11-10-2020" }, true);
 	setValues({"Client_name": "SCB FATCA" }, true);
 	setValues({"Deal_id": "CF012345" }, true);
 	setValues({"Product_type": "FATCA-process"}, true);
 	setValues({"Activity_status": "Draft"}, true);
-	setValues({"Decision": "DRAFT"}, true);
 	
 	setStyle("Submit","visible","true");
 	setStyle("Save_draft","visible","true");
@@ -48,6 +56,7 @@ var userName = getWorkItemData("userName");
 	setStyle("Option1_transaction","visible","false");
 	setStyle("Option1_payeejurisdiction","visible","false");
 	setStyle("Option1_transactionussource","visible","false");
+	setStyle("Self_declaration","visible","false");
 
 setStyle("label327","visible","false");
 setStyle("label328","visible","false");
@@ -59,7 +68,6 @@ setStyle("label326","visible","false");
 	setStyle("label329","visible","false");
 	setStyle("label330","visible","false");
 	setStyle("label313","visible","false");
-	
 	
 	setTabStyle("tab4", 1, "visible", "false");
 	setTabStyle("tab4", 2, "visible", "false");
@@ -80,17 +88,48 @@ setStyle("label326","visible","false");
 		setStyle("Option6_checkbox","visible","false");
 			
 	}
-
-
-
+	
+	if(ActivityName=='Recalled-DTE')
+        { 
+	
+	if (getValue("Usergroup") == 'DTE'){
+		
+		setValues({"Activity_status": "Recalled"}, true);
+		iframeWindow.document.getElementById("StatusTag").innerHTML = "Recalled";
+		option1();
+		option2();
+		option3();
+		option4();
+		option5();
+		option6();
+		
+		Questionarie();
+		option1_aviationshipleasing();
+		option1_dealussource();
+		option1_liveagency();
+		option2_dealussource();
+		option1_transactionaviation();
+		option1_jurisdiction();
+		option1_payeejurisdiction();
+		option2_dealsatisfaction();
+		option3_creditdealussource();
+		option4_recipientfatca();
+		option6_contract();
+		
+	}
+	
+		}
 if(ActivityName=='UnderReview-DTL'){
 	
 	setValues({"Activity_status": "Under Review"}, true);
+	iframeWindow.document.getElementById("StatusTag").innerHTML = "Under Review";
 	
 	if (getValue("Usergroup") == 'DTE') {
 		
 		setTabStyle("tab4", 1, "visible", "false");
 		setTabStyle("tab4", 2, "visible", "false");
+		//setStyle("Recall","visible","true");
+		iframeWindow.document.getElementById('IFrame_Recall').style.visibility = 'visible';
 		
 		option1();
 		option2();
@@ -132,6 +171,7 @@ if(ActivityName=='UnderReview-DTL'){
 		setStyle("Option4_checkbox","disable","true");
 		setStyle("Option5_checkbox","disable","true");
 		setStyle("Option6_checkbox","disable","true");
+		setStyle("Self_declaration","disable","true");
 			
 	}
 	if (getValue("Usergroup") == 'DTL') {
@@ -139,12 +179,13 @@ if(ActivityName=='UnderReview-DTL'){
 		setTabStyle("tab4", 1, "visible", "false");
 		setTabStyle("tab4", 2, "visible", "false");
 	
-		setStyle("Recall","visible","false");
-		setStyle("Submit","visible","true");
-		setStyle("Recall","visible","true");
-		setStyle("Legal_action","visible","false");
+		iframeWindow.document.getElementById('IFrame_Recall').style.visibility = 'hidden';
+		iframeWindow.document.getElementById('IFrame_Submit').style.visibility = 'visible';
+		iframeWindow.document.getElementById('IFrame_Action').style.visibility = 'hidden';
+		iframeWindow.document.getElementById('IFrame_Save').style.visibility = 'hidden';
 		
 		setValues({"Activity_status": "UnderReview-Deal Team Leader"}, true);
+		iframeWindow.document.getElementById("StatusTag").innerHTML = "Under Review-DTL";
 		
 		option1();
 		option2();
@@ -161,13 +202,13 @@ if(ActivityName=='UnderReview-DTL'){
 		option1_transactionaviation();
 		option1_jurisdiction();
 		option1_payeejurisdiction();
-		option1_liveagency();
+		
 		option2_dealsatisfaction();
 		option3_creditdealussource();
 		option4_recipientfatca();
 		option6_contract();
 		
-		setStyle("questionnaire","disable","true");
+		/*setStyle("questionnaire","disable","true");
 		setStyle("Legal_action","disable","false");
 		setStyle("Option1_dealinvolve","disable","true");
 		setStyle("Option1_dealussource","disable","true");
@@ -186,13 +227,13 @@ if(ActivityName=='UnderReview-DTL'){
 		setStyle("Option4_checkbox","disable","true");
 		setStyle("Option5_checkbox","disable","true");
 		setStyle("Option6_checkbox","disable","true");
+		setStyle("Self_declaration","disable","true");   //disabling according to new requirement*/
 		
 		
 	}
 	if (getValue("Usergroup") == 'Legal') {
 		
-		setStyle("Recall","visible","true");
-		
+		iframeWindow.document.getElementById('IFrame_Recall').style.visibility = 'hidden';
 		
 		option1();
 		option2();
@@ -209,7 +250,6 @@ if(ActivityName=='UnderReview-DTL'){
 		option1_transactionaviation();
 		option1_jurisdiction();
 		option1_payeejurisdiction();
-		option1_liveagency();
 		option2_dealsatisfaction();
 		option3_creditdealussource();
 		option4_recipientfatca();
@@ -233,6 +273,7 @@ if(ActivityName=='UnderReview-DTL'){
 		setStyle("Option4_checkbox","disable","true");
 		setStyle("Option5_checkbox","disable","true");
 		setStyle("Option6_checkbox","disable","true");
+		setStyle("Self_declaration","disable","true");
 		
 	}
 }
@@ -241,8 +282,11 @@ if(ActivityName=='UnderReview-DTL'){
 if(ActivityName=='UnderReview-Legal'){
 	
 	setValues({"Activity_status": "Under Review-Legal"}, true);
+	iframeWindow.document.getElementById("StatusTag").innerHTML = "Under Review-Legal";
 	
 	if (getValue("Usergroup") == 'DTE') {
+		
+		iframeWindow.document.getElementById('IFrame_Recall').style.visibility = 'visible';
 		
 		option1();
 		option2();
@@ -284,12 +328,13 @@ if(ActivityName=='UnderReview-Legal'){
 		setStyle("Option4_checkbox","disable","true");
 		setStyle("Option5_checkbox","disable","true");
 		setStyle("Option6_checkbox","disable","true");
+		setStyle("Self_declaration","disable","true");
 			
 	}
 	if (getValue("Usergroup") == 'DTL') {
 		
-		setStyle("Submit","visible","true");
-		setStyle("Recall","visible","false");
+	
+		iframeWindow.document.getElementById('IFrame_Recall').style.visibility = 'visible';
 		
 		// setValues({"Activity_status": "UnderReview-Deal Team Leader"}, true);
 		
@@ -308,7 +353,7 @@ if(ActivityName=='UnderReview-Legal'){
 		option1_transactionaviation();
 		option1_jurisdiction();
 		option1_payeejurisdiction();
-		option1_liveagency();
+		
 		option2_dealsatisfaction();
 		option3_creditdealussource();
 		option4_recipientfatca();
@@ -333,14 +378,18 @@ if(ActivityName=='UnderReview-Legal'){
 		setStyle("Option4_checkbox","disable","true");
 		setStyle("Option5_checkbox","disable","true");
 		setStyle("Option6_checkbox","disable","true");
+		setStyle("Self_declaration","disable","true");
 		
 		
 	}
 	if (getValue("Usergroup") == 'Legal') {
 		
-		setStyle("Recall","visible","true");
+		iframeWindow.document.getElementById('IFrame_Action').style.visibility = 'visible';
+		iframeWindow.document.getElementById('IFrame_Submit').style.visibility = 'visible';
+	
 		
 		setValues({"Activity_status": "UnderReview-Legal"}, true);
+		iframeWindow.document.getElementById("StatusTag").innerHTML = "Under Review-Legal";
 		
 		option1();
 		option2();
@@ -357,7 +406,7 @@ if(ActivityName=='UnderReview-Legal'){
 		option1_transactionaviation();
 		option1_jurisdiction();
 		option1_payeejurisdiction();
-		option1_liveagency();
+	
 		option2_dealsatisfaction();
 		option3_creditdealussource();
 		option4_recipientfatca();
@@ -382,6 +431,7 @@ if(ActivityName=='UnderReview-Legal'){
 		setStyle("Option4_checkbox","disable","true");
 		setStyle("Option5_checkbox","disable","true");
 		setStyle("Option6_checkbox","disable","true");
+		setStyle("Self_declaration","disable","true");
 		
 	}
 }
@@ -390,11 +440,12 @@ if(ActivityName=='UnderReview-Legal'){
 if(ActivityName =='Referback'){
 	
 	setValues({"Activity_status": "Referback"}, true);
+	iframeWindow.document.getElementById("StatusTag").innerHTML = "Referback";
 	saveWorkItem();
 	if (getValue("Usergroup") == 'DTE') {
 		
-		setStyle("Submit","visible","true");
-	
+		iframeWindow.document.getElementById('IFrame_Submit').style.visibility = 'visible';
+	 iframeWindow.document.getElementById('IFrame_Save').style.visibility = 'visible';		
 	var confirmDoneResponse = confirm("FATCA Questionarie to be Updated?");
 	if(confirmDoneResponse ==  true)
 		{
@@ -448,7 +499,7 @@ if(ActivityName =='Referback'){
 		option1_transactionaviation();
 		option1_jurisdiction();
 		option1_payeejurisdiction();
-		option1_liveagency();
+		
 		option2_dealsatisfaction();
 		option3_creditdealussource();
 		option4_recipientfatca();
@@ -494,7 +545,6 @@ if(ActivityName =='Referback'){
 		option1_transactionaviation();
 		option1_jurisdiction();
 		option1_payeejurisdiction();
-		option1_liveagency();
 		option2_dealsatisfaction();
 		option3_creditdealussource();
 		option4_recipientfatca();
@@ -523,25 +573,48 @@ if(ActivityName =='Referback'){
 }
 
 }
+function setCaption(Control, Value)
+{
+    //document.getElementById(Control).innerHTML = Value;
+	if(Control == "Btn_Save"){
+		Control = "IFrame_Save";
+	}else if(Control == "Btn_Reject"){
+		Control = "IFrame_Delete";
+	}else if(Control == "Btn_Submit"){
+		Control = "IFrame_Submit";
+	}
+	else if(Control == "Legal_action"){
+		Control = "IFrame_Action";
+	}
+	iframeWindow.document.getElementById(Control).innerHTML = Value;
+}
+
+											
 
 function Recall(){
 	setValues({"Activity_status": "Recalled"}, true);
+	iframeWindow.document.getElementById("StatusTag").innerHTML = "Recalled";
 	var ActivityName=window.parent.stractivityName;
 	saveWorkItem();
 	 if (ActivityName == 'UnderReview-Legal') 
 	 {
               if (getValue("Usergroup") == 'DTE') {
+					
 							if(getValue('Activity_status') == 'Recalled'){
-								setStyle("Recall", "visible", "false");
-								setStyle("Save_draft", "visible", "false");
+								iframeWindow.document.getElementById('IFrame_Recall').style.visibility = 'hidden';
+								iframeWindow.document.getElementById('IFrame_Save').style.visibility = 'hidden';
+								setValues({"Recalled_by": "DTE"}, true);
 								saveWorkItem();
 								completeWorkItem();
 							}
 	}
-						if (getValue("Usergroup") == 'DTL' || getValue("Usergroup") == 'Legal' ) {
+						if (getValue("Usergroup") == 'DTL') {
 							if(getValue('Activity_status') == 'Recalled'){
-								setStyle("Recall", "visible", "false");
+							
+								iframeWindow.document.getElementById('IFrame_Recall').style.visibility = 'hidden';
+								iframeWindow.document.getElementById('IFrame_Save').style.visibility = 'hidden';
 								setStyle("Save_draft", "visible", "false");
+								setValues({"Recalled_by": "DTL"}, true);
 								saveWorkItem();
 								completeWorkItem();
 							}
@@ -553,6 +626,7 @@ function Legal_action(){
 
 	if ((getValue("Legal_action") == 'Reject')){
 		setStyle("Comments", "mandatory", "true");
+		setStyle("Recall", "visible", "false");
 		
 	}
 	
@@ -564,7 +638,11 @@ function Legal_action(){
 	}
 	
 	if(getValue("Legal_action") == 'Approve') {
-		setStyle("Recall", "mandatory", "false");
+		
+		setStyle("Recall", "visible", "false");
+	}
+	else{
+		setStyle("Recall", "visible", "true");
 	}
 }
 
@@ -593,13 +671,15 @@ function FATCA_EventCall(pId, pEvent) {
 		 case 'click':
         {
 			switch (pEvent.srcElement.id) {
-                case 'Submit':
+               
+				 case 'Btn_Submit':
 				
 					saveWorkItem();
 					completeWorkItem();
 					return false;
 					
-					case 'Recall':
+					
+					case 'Btn_Recall':
 					setValues({"Activity_status": "Recalled"}, true);
 					var ActivityName=window.parent.stractivityName;
 					saveWorkItem();
@@ -636,7 +716,9 @@ function FATCA_EventCall(pId, pEvent) {
 								completeWorkItem();
 							}} }
 	 
-	 case 'Save':
+	 case 'Btn_Save':
+				saveWorkItem();	
+			case 'Btn_History':
 				saveWorkItem();	
 					
 					
@@ -729,13 +811,16 @@ function Questionarie(){
 			}
 			else {
 				
-				
+				var ele = document.getElementsByName("Option1_dealinvolve");
+                for(var i=0;i<ele.length;i++)
+                { ele[i].checked = false;
+                }
 				setTabStyle("tab11", 0, "visible", "false");
 				
 				//disabling
 				
-					setStyle("label282","visible","true");
-					setStyle("Option1_liveagency","visible","true");
+					setStyle("label282","visible","false");
+					setStyle("Option1_liveagency","visible","false");
 					setStyle("label281","visible","false");
 				setStyle("label319","visible","false");
 				setStyle("label320","visible","false");
@@ -770,7 +855,16 @@ function Questionarie(){
 				setTabStyle("tab11", 1, "visible", "true");
 			}
 			else{
-					setTabStyle("tab11", 1, "visible", "false");
+				setTabStyle("tab11", 1, "visible", "false");
+				var ele = document.getElementsByName("Option2_existingdealussource");
+                for(var i=0;i<ele.length;i++)
+                { ele[i].checked = false;
+                }
+				 setStyle("label314","visible","false");
+	                setStyle("label315","visible","false");
+					setStyle("label316","visible","false");
+					setStyle("label317","visible","false");
+			
 					setStyle("label281","visible","false");
 					setStyle("Option1_liveagency","visible","false");
 					setStyle("Option2_dealsatisfy","visible","false");
@@ -783,6 +877,11 @@ function Questionarie(){
 			}
 			else{
 				setTabStyle("tab11", 2, "visible", "false");
+				//setTabStyle("tab11", 1, "visible", "false");
+				var ele = document.getElementsByName("Option3_creditdealussource");
+                for(var i=0;i<ele.length;i++)
+                { ele[i].checked = false;
+                }
 					
 					//invisible
 					setStyle("label325","visible","false");
@@ -798,6 +897,12 @@ function Questionarie(){
 			}
 			else{
 				setTabStyle("tab11", 3, "visible", "false");
+				var ele = document.getElementsByName("Option4_Fatcacompliant");
+                for(var i=0;i<ele.length;i++)
+                { ele[i].checked = false;
+                }
+				
+				Option4_Fatcacompliant
 				setStyle("label327","visible","false");
 				setStyle("label328",'visible','false');
 				}
@@ -819,6 +924,11 @@ function Questionarie(){
 			}
 			else{
 				setTabStyle("tab11", 5, "visible", "false");
+				var ele = document.getElementsByName("Option6_dealcondition");
+                for(var i=0;i<ele.length;i++)
+                { ele[i].checked = false;
+                }
+				
 				 setStyle("label333","visible","false");
                 setStyle("label334",'visible','false'); 
 				
@@ -863,6 +973,8 @@ function Questionarie(){
 			var aviationshipleasing= getValue('Option1_dealinvolve');
 			if (aviationshipleasing == "My deal involves Aviation Leasing") 
 			{
+   			    setStyle("label329","visible","false");
+
 				setStyle("label319","visible","true");
 				setStyle("label320","visible","true");
 				setStyle("label321","visible","true");
@@ -875,7 +987,6 @@ function Questionarie(){
 				setStyle("label278","visible","false");
 				setStyle("label279","visible","false");
 				setStyle("label280","visible","false");
-				setStyle("label329","visible","false");
 				setStyle("label330","visible","false");
 				setStyle("Option1_dealussource","visible","false");
 				setStyle("Option1_liveagency","visible","false");
@@ -1046,12 +1157,13 @@ function option1_liveagency(){
 					if (getValue("Usergroup") == 'Legal') {
 				setTabStyle("tab4", 2, "visible", "true");	//Approvals section
 				}
-				
+					setStyle("label335","visible","false");
 				setStyle("label329","visible","true");  //for displaying the message label
 					setValues({"outcome": "FATCA REQUIRED" }, true);
 	}
 	else 
 	{
+					setStyle("label335","visible","false"); 
 					setTabStyle("tab4", 1, "visible", "false");
 					setTabStyle("tab4", 2, "visible", "false");
 					setTabStyle("tab4", 3, "visible", "false");// these 3 lines
@@ -1067,10 +1179,13 @@ function option1_liveagency(){
 	if(satisfaction == "Yes"){
 			setStyle("label331","visible","true");  //for displaying the message label
 				setValues({"outcome": "FATCA NOT REQUIRED" }, true);
+				setStyle("Self_declaration","visible","true");
 		}
-		else if (satisfaction == "No"){
+	 if (satisfaction == "No"){
 			setStyle("label331","visible","true");  //for displaying the message label
 				setValues({"outcome": "FATCA REQUIRED" }, true);
+				setStyle("label331","visible","true");
+				setStyle("Self_declaration","visible","false");		//Self_declaration 
 		}
 	}
 	
@@ -1090,6 +1205,7 @@ function option1_liveagency(){
 					
 					  if (getValue("Usergroup") == 'Legal') {
 						  setTabStyle("tab4", 1, "visible", "true"); //Comments
+						  setStyle("Comments", "mandatory", "true");
 					setTabStyle("tab4", 2, "visible", "true");	//Profile section
 				}
 					
@@ -1111,7 +1227,7 @@ function option1_liveagency(){
 				
 	function option4_recipientfatca(){
 		var tb= getValue('Option4_Fatcacompliant');
-			if(tb == "Yes, the intended recipient is FATCA compliant"){
+			if(tb == "Yes, the intended recipient is FATCA compliant."){
 				setStyle("label328",'visible','false');
 					setStyle("label327","visible","true");//setting msg to be displayed
 					
@@ -1126,7 +1242,7 @@ function option1_liveagency(){
 					
 					
 			}
-		    if(tb =="No, the intended recipient is not FATCA compliant")
+		    if(tb =="No, the intended recipient is not FATCA compliant.")
 			{
 					if ((getValue("Usergroup") == 'Legal') ) {
 				setTabStyle("tab4", 2, "visible", "true"); // Profile Report
